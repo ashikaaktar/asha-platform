@@ -1,0 +1,380 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-navy: #080A21;
+  --bg-navy-card: #0D1033;
+  --bg-cosmic: #07091E;
+  --bg-card: #0E1238;
+  --border-cosmic: #27255C;
+  --navy-deep: #0B0E2B;
+  --royal-purple: #7C3AED;
+  --electric-violet: #A855F7;
+  --neon-purple: #8B35FF;
+  --neon-cyan: #38BDF8;
+  --neon-blue: #2563EB;
+  --text-main: #FFFFFF;
+  --text-muted: #D5D2E5;
+}
+
+body {
+  color: #D5D2E5;
+  background-color: #07091E;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Custom Cosmic Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060515;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2D2A5D;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8B35FF;
+}
+
+/* Smooth Focus Ring */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 53, 255, 0.4);
+}
+
+/* Modern Floating & Aurora Animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+@keyframes float-delayed {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(-1.5deg);
+  }
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 15px rgba(139, 53, 255, 0.6));
+  }
+
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.8));
+  }
+}
+
+@keyframes bloom {
+  0% {
+    transform: scale(0.3) rotate(-20deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05) rotate(4deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: float 4.5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 6s ease-in-out infinite 1.5s;
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-bloom {
+  animation: bloom 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Floating Glass Cards with Navy-Purple Theme */
+.glass-floating {
+  background: rgba(13, 16, 48, 0.75);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  box-shadow: 0 12px 35px rgba(5, 7, 25, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-floating:hover {
+  transform: translateY(-5px);
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 20px 45px rgba(124, 58, 237, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Glowing text helpers */
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 22px rgba(168, 85, 247, 0.7);
+}
+
+/* ------------------------------------------------------------- */
+/* BIRD FLIGHT & WING FLAPPING ANIMATIONS                        */
+/* ------------------------------------------------------------- */
+@keyframes wingFlapUp {
+  0% {
+    transform: rotate(0deg) scaleY(1);
+  }
+
+  100% {
+    transform: rotate(-38deg) scaleY(0.4);
+  }
+}
+
+@keyframes wingFlapDown {
+  0% {
+    transform: rotate(0deg) scaleY(1);
+  }
+
+  100% {
+    transform: rotate(38deg) scaleY(0.4);
+  }
+}
+
+.animate-wing-left {
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: wingFlapUp 0.38s ease-in-out infinite alternate;
+}
+
+.animate-wing-right {
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: wingFlapDown 0.38s ease-in-out infinite alternate;
+}
+
+/* Bird 1: High Flight across upper screen (Left to Right) */
+@keyframes flyRightPath1 {
+  0% {
+    transform: translate3d(-10vw, 12vh, 0) scale(0.85);
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 0.95;
+  }
+
+  45% {
+    transform: translate3d(45vw, 8vh, 0) scale(1);
+    opacity: 1;
+  }
+
+  80% {
+    transform: translate3d(85vw, 14vh, 0) scale(0.9);
+    opacity: 0.95;
+  }
+
+  96% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate3d(112vw, 16vh, 0) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* Bird 2: Companion Flight trailing Bird 1 */
+@keyframes flyFollowerPath {
+  0% {
+    transform: translate3d(-12vw, 9vh, 0) scale(0.7);
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translate3d(48vw, 6vh, 0) scale(0.8);
+    opacity: 0.9;
+  }
+
+  96% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate3d(112vw, 12vh, 0) scale(0.7);
+    opacity: 0;
+  }
+}
+
+/* Bird 3: Mid-Screen Flight (Right to Left) */
+@keyframes flyLeftPath2 {
+  0% {
+    transform: translate3d(112vw, 36vh, 0) scaleX(-1) scale(0.8);
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 0.9;
+  }
+
+  48% {
+    transform: translate3d(50vw, 42vh, 0) scaleX(-1) scale(0.95);
+    opacity: 0.95;
+  }
+
+  96% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate3d(-12vw, 34vh, 0) scaleX(-1) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Bird 4: Soaring Diagonally (Lower Left to Upper Right) */
+@keyframes flyRightPath3 {
+  0% {
+    transform: translate3d(-10vw, 68vh, 0) scale(0.75);
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translate3d(45vw, 55vh, 0) scale(0.85);
+    opacity: 0.9;
+  }
+
+  96% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate3d(112vw, 42vh, 0) scale(0.75);
+    opacity: 0;
+  }
+}
+
+.animate-fly-1 {
+  will-change: transform, opacity;
+  animation: flyRightPath1 14s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-fly-follower {
+  will-change: transform, opacity;
+  animation: flyFollowerPath 14s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.8s;
+}
+
+.animate-fly-2 {
+  will-change: transform, opacity;
+  animation: flyLeftPath2 18s cubic-bezier(0.4, 0, 0.2, 1) infinite 3.5s;
+}
+
+.animate-fly-3 {
+  will-change: transform, opacity;
+  animation: flyRightPath3 16s cubic-bezier(0.4, 0, 0.2, 1) infinite 8s;
+}
+
+/* ------------------------------------------------------------- */
+/* FLOATING PARTICLES & SPARKLING GRAINS (ছোট ছোট দানা)          */
+/* ------------------------------------------------------------- */
+@keyframes particleDriftUp {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.95;
+  }
+
+  85% {
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translate3d(var(--drift-x, 20px), -150px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes starTwinkle {
+
+  0%,
+  100% {
+    transform: scale(0.4) rotate(0deg);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: scale(1.15) rotate(90deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+}
+
+.animate-particle-drift {
+  will-change: transform, opacity;
+  animation: particleDriftUp 8s ease-in-out infinite;
+}
+
+.animate-star-twinkle {
+  will-change: transform, opacity;
+  animation: starTwinkle 3.2s ease-in-out infinite;
+}

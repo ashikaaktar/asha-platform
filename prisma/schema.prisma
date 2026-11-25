@@ -1,0 +1,139 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String         @id @default(cuid())
+  name         String
+  email        String         @unique
+  passwordHash String
+  role         String         @default("USER") // "USER" or "ADMIN"
+  status       String         @default("ACTIVE") // "ACTIVE" or "SUSPENDED"
+  avatar       String?
+  websites     Website[]
+  mediaAssets  MediaAsset[]
+  planUsage    UserPlanUsage?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model UserPlanUsage {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planName          String   @default("Free") // "Free", "Pro", "Agency"
+  maxWebsites       Int      @default(3)
+  aiGenerationsUsed Int      @default(0)
+  maxAiGenerations  Int      @default(10)
+  storageUsedBytes  Int      @default(0)
+  maxStorageMb      Int      @default(50)
+  updatedAt         DateTime @updatedAt
+}
+
+model Website {
+  id                 String             @id @default(cuid())
+  userId             String
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name               String
+  slug               String
+  description        String?
+  category           String             @default("General")
+  status             String             @default("DRAFT") // "DRAFT" or "PUBLISHED"
+  publishedSubdomain String?            @unique
+  themeConfig        String             @default("{\"primaryColor\":\"#2563EB\",\"fontFamily\":\"Inter\",\"borderRadius\":\"md\"}")
+  thumbnail          String?
+  pages              Page[]
+  publishedSnapshot  PublishedSnapshot?
+  analyticsEvents    AnalyticsEvent[]
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+model Page {
+  id              String    @id @default(cuid())
+  websiteId       String
+  website         Website   @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  title           String
+  slug            String // e.g. "home", "about", "services", "contact"
+  isHomepage      Boolean   @default(false)
+  orderIndex      Int       @default(0)
+  metaTitle       String?
+  metaDescription String?
+  sections        Section[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([websiteId, slug])
+}
+
+model Section {
+  id          String   @id @default(cuid())
+  pageId      String
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  type        String // "hero", "about", "features", "services", "gallery", "testimonials", "faq", "contact", "footer", "cta"
+  contentJson String // Stores texts, headings, button text/link, image urls, item lists
+  stylesJson  String // Stores colors, alignment, padding, background style
+  orderIndex  Int      @default(0)
+  isVisible   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PublishedSnapshot {
+  id           String   @id @default(cuid())
+  websiteId    String   @unique
+  website      Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  subdomain    String   @unique
+  snapshotJson String // Full frozen snapshot of pages, sections, theme, metadata
+  publishedAt  DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Template {
+  id          String   @id @default(cuid())
+  title       String
+  category    String // "Business", "Portfolio", "Agency", "Personal Website", "Blog", "Landing Page", "Online Store"
+  description String
+  thumbnail   String?
+  isFeatured  Boolean  @default(false)
+  isPublished Boolean  @default(true)
+  dataJson    String // Template pages & sections data
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filename     String
+  originalName String
+  mimeType     String
+  sizeBytes    Int
+  url          String
+  createdAt    DateTime @default(now())
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  websiteId String
+  website   Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  pageSlug  String   @default("home")
+  eventType String   @default("PAGEVIEW")
+  referrer  String?
+  userAgent String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+model PlatformSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

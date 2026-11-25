@@ -159,9 +159,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#07091E] text-[#D5D2E5] selection:bg-[#8B35FF]/30 selection:text-white relative overflow-hidden">
-      {/* Floating Atmosphere: Birds, Particles & Ambient Navy-Purple Glow */}
-      <FloatingAtmosphere />
-
       {/* Blooming Welcome Lotus Modal */}
       <BloomingWelcome />
 
